@@ -14,15 +14,58 @@
 	
 		>div {
 			width: 45%;
-			top: 25%;
+			top: 15%;
 			left: 5%;
 			position: absolute;
+			line-height: 0px;
 			
 			a {
-				background: #000;
+				background: #111;
 				display: inline-block;
-				padding: 4px 8px;
+				border: 8px solid #a2a2a2;
 			}
+			
+			a[data-btn=up] {
+				margin-left: 50px;
+				width: 50px;
+				height: 46px;
+				display: inline-block;
+				border-bottom: 0px;
+				border-radius: 10px 10px 0px 0px;
+			}
+			
+			a[data-btn=down] {
+				margin-left: 50px;
+				width: 50px;
+				height: 46px;
+				display: inline-block;
+				border-top: 0px;
+				border-radius: 0px 0px 10px 10px;
+			}
+			
+			a[data-btn=left] {
+				width: 50px;
+				height: 50px;
+				display: inline-block;
+				border-right: 0px;
+				border-radius: 10px 0px 0px 10px;
+			}
+			
+			a[data-btn=right] {
+				width: 50px;
+				height: 50px;
+				display: inline-block;
+				border-left: 0px;
+				border-radius: 0px 10px 10px 0px;
+			}
+			
+			.center {
+				background: #111;
+				width: 50px;
+				height: 66px;
+				display: inline-block;
+			}
+			
 		}
 	}
 	
@@ -45,7 +88,6 @@
 				margin-left: 10px;
 				border-radius: 50%;
 				text-align: center;
-
 			}
 			
 		}

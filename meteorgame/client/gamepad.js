@@ -81,3 +81,9 @@ Template.gamepad.events({
 	
 });
 
+Template.gamepad.helpers({
+	gamepad : function(){
+		return Gamepad.findOne(Session.get('gamepadId'));
+	}
+});
+
