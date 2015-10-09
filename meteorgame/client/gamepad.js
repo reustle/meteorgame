@@ -1,9 +1,17 @@
+PLAYER_COLORS = [
+	'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white', 'gray'
+];
+
 Template.gamepad.onCreated(function(){
+	
+	var existingColors = _.pluck(Gamepad.find().fetch(), 'color');
+	
+	var colorOptions = _.without(PLAYER_COLORS, existingColors);
 	
 	// New gamepad doc
 	var gamepadId = Gamepad.insert({
 		createdOn: new Date(),
-		color: 'some-color',
+		color: _.sample(colorOptions, 1),
 		btnA: false,
 		btnB: false,
 		btnStart: false,
