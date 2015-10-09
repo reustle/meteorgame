@@ -26,7 +26,8 @@ html, body {
 }
 #gamepad-button {
   float: right;
-  height: 100%;
+  height: 90%;
+  padding-top: 40%;
   width: 50%;
   background-color: lightgreen;
   font-size: 2em;
@@ -35,7 +36,8 @@ html, body {
 
 #screen-button {
   float: left;
-  height: 100%;
+  height: 90%;
+  padding-top: 40%;
   width: 50%;
   background-color: gray;
   font-size: 2em;
@@ -50,11 +52,4 @@ html, body {
   background-color: white;
 }
 
-.vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
 

@@ -10,6 +10,11 @@ Template.main.helpers({
 Template.main.events({
   "click .button": function(e) {
     Session.set("role", e.target.id.replace("-button", ""));
+    console.log(Session.get("role"));
+  },
+  "click .vertical-align": function(e) {
+    Session.set("role", e.target.parentNode.id.replace("-button", ""));
+    console.log(Session.get("role"));
   }
 });
 
