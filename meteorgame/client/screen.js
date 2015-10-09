@@ -7,6 +7,7 @@ Template.screen.onCreated(function() {
 
   var playerByGamepadId = {};
   var playerCollissionGroup;
+  var platformCG;
 
   var createPlayer = function() {
     var player = game.add.sprite(32, 32, 'dude');
@@ -42,6 +43,7 @@ Template.screen.onCreated(function() {
       game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
       game.load.image('background', 'assets/games/starstruck/background2.png');
       game.stage.disableVisibilityChange = true;
+      preload_level1(game);
   }
 
   function create() {
@@ -50,6 +52,7 @@ Template.screen.onCreated(function() {
       bg = game.add.tileSprite(0, 0, 800, 600, 'background');
       game.physics.arcade.gravity.y = 250;
       playerCollissionGroup = game.add.physicsGroup();
+      platformCG = load_level1(game);
   }
 
   function update() {
@@ -94,6 +97,7 @@ Template.screen.onCreated(function() {
               player.body.velocity.y = -250;
               player._jumpTimer = game.time.now + 750;
           }
+          game.physics.arcade.collide(player, platformCG);
       });
 
       game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
