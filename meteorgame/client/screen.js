@@ -6,6 +6,7 @@ Template.screen.onCreated(function() {
   var bg;
 
   var playerByGamepadId = {};
+  var playerCollissionGroup;
 
   var createPlayer = function() {
     var player = game.add.sprite(32, 32, 'dude');
@@ -27,9 +28,12 @@ Template.screen.onCreated(function() {
     added: function(newPad) {
       var player = createPlayer();
       playerByGamepadId[newPad._id] = player;
+      playerCollissionGroup.add(player);
     },
     removed: function(dyingPad) {
+      var player = playerGamepadId[dyingPad._id];
       delete playerGamepadId[dyingPad._id]
+      playerCollissionGroup.remove(player);
     }
   });
 
@@ -40,15 +44,11 @@ Template.screen.onCreated(function() {
   }
 
   function create() {
-
       game.physics.startSystem(Phaser.Physics.ARCADE);
-
       game.time.desiredFps = 30;
-
       bg = game.add.tileSprite(0, 0, 800, 600, 'background');
-
       game.physics.arcade.gravity.y = 250;
-
+      playerCollissionGroup = game.add.physicsGroup();
   }
   function update() {
       _.each(playerByGamepadId, function(player, padId) {
@@ -88,11 +88,13 @@ Template.screen.onCreated(function() {
               }
           }
 
-          if (playerGamepad.btnA && player.body.onFloor() && game.time.now > player._jumpTimer) {
+          if (playerGamepad.btnA && game.time.now > player._jumpTimer) {
               player.body.velocity.y = -250;
               player._jumpTimer = game.time.now + 750;
           }
       });
+
+      game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
   }
 
   function render () {
