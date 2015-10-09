@@ -31,9 +31,10 @@ Template.screen.onCreated(function() {
       playerCollissionGroup.add(player);
     },
     removed: function(dyingPad) {
-      var player = playerGamepadId[dyingPad._id];
-      delete playerGamepadId[dyingPad._id]
+      var player = playerByGamepadId[dyingPad._id];
+      delete playerByGamepadId[dyingPad._id]
       playerCollissionGroup.remove(player);
+      player.destroy();
     }
   });
 
@@ -50,6 +51,7 @@ Template.screen.onCreated(function() {
       game.physics.arcade.gravity.y = 250;
       playerCollissionGroup = game.add.physicsGroup();
   }
+
   function update() {
       _.each(playerByGamepadId, function(player, padId) {
           var playerGamepad = Gamepad.findOne(padId);
