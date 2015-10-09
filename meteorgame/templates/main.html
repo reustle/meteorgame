@@ -1,0 +1,13 @@
+<template name="main">
+  {{#if role_picked }}
+    {{#if is_gamepad }}
+      {{> gamepad }}
+    {{else}}
+      err, screen?
+    {{/if}}
+  {{else}}
+    pick role!
+    <button id="gamepad-button">I'm a Gamepad!</button>
+    <button id="screen-button">I'm the Screen!</button>
+  {{/if}}
+</template>
