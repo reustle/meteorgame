@@ -13,18 +13,18 @@ Template.screen.onCreated(function() {
   var createPlayer = function(newPad) {
     var player = game.add.sprite(32, 32, 'dude');
 
-	var colormap = {
-		'red': 0xff0000,
-		'orange': 0xff9900,
-		'yellow': 0xffff00,
-		'green': 0x00ff00,
-		'blue': 0x0000ff,
-		'purple': 0x9900cc,
-		'white': 0xffffff,
-		'gray': 0xa3a3a3
-	}
+    var colormap = {
+      'red': 0xff0000,
+      'orange': 0xff9900,
+      'yellow': 0xffff00,
+      'green': 0x00ff00,
+      'blue': 0x0000ff,
+      'purple': 0x9900cc,
+      'white': 0xffffff,
+      'gray': 0xa3a3a3
+    }
 
-	player.tint = colormap[newPad.color];
+    player.tint = colormap[newPad.color];
 
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
@@ -71,7 +71,11 @@ Template.screen.onCreated(function() {
   }
 
   function update() {
+      game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
+
       _.each(playerByGamepadId, function(player, padId) {
+          game.physics.arcade.collide(player, platformCG);
+
           var playerGamepad = Gamepad.findOne(padId);
           player.body.velocity.x = 0;
 
@@ -112,10 +116,8 @@ Template.screen.onCreated(function() {
               player.body.velocity.y = -250;
               player._jumpTimer = game.time.now + 750;
           }
-          game.physics.arcade.collide(player, platformCG);
       });
 
-      game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
   }
 
   function render () {
