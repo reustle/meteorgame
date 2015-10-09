@@ -9,7 +9,7 @@ Template.main.helpers({
 
 Template.main.events({
   "click button": function(e) {
-    Session.set("role", e.toElement.id.replace("-button", ""));
+    Session.set("role", e.target.id.replace("-button", ""));
   }
 });
 
