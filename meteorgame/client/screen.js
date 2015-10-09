@@ -3,12 +3,37 @@ Template.screen.onCreated(function() {
     preload: preload, create: create, update: update, render: render
   });
 
-  var player;
   var facing = 'left';
-  var jumpTimer = 0;
   var cursors;
   var jumpButton;
   var bg;
+
+  var playerByGamepadId = {};
+
+  var createPlayer = function() {
+    var player = game.add.sprite(32, 32, 'dude');
+    game.physics.enable(player, Phaser.Physics.ARCADE);
+
+    player.body.bounce.y = 0.2;
+    player.body.collideWorldBounds = true;
+    player.body.setSize(20, 32, 5, 16);
+
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('turn', [4], 20, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player._jumpTimer = 0;
+    return player;
+  }
+
+  Gamepad.find().observe({
+    added: function(newPad) {
+      var player = createPlayer();
+      playerByGamepadId[newPad._id] = player;
+    },
+    removed: function(dyingPad) {
+      delete playerGamepadId[dyingPad._id]
+    }
+  });
 
   function preload() {
       game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
@@ -26,72 +51,53 @@ Template.screen.onCreated(function() {
 
       game.physics.arcade.gravity.y = 250;
 
-      player = game.add.sprite(32, 32, 'dude');
-      game.physics.enable(player, Phaser.Physics.ARCADE);
-
-      player.body.bounce.y = 0.2;
-      player.body.collideWorldBounds = true;
-      player.body.setSize(20, 32, 5, 16);
-
-      player.animations.add('left', [0, 1, 2, 3], 10, true);
-      player.animations.add('turn', [4], 20, true);
-      player.animations.add('right', [5, 6, 7, 8], 10, true);
-
       cursors = game.input.keyboard.createCursorKeys();
       jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
   }
   function update() {
-      var playerGamepad = Gamepad.findOne({}, {sort: [["createdOn", "desc"]]});
-      // game.physics.arcade.collide(player, layer);
+      _.each(playerByGamepadId, function(player, padId) {
+          var playerGamepad = Gamepad.findOne(padId);
+          player.body.velocity.x = 0;
 
-      player.body.velocity.x = 0;
+          if (playerGamepad.dpad == "left") {
+              player.body.velocity.x = -150;
 
-      if (playerGamepad.dpad == "left")
-      {
-          player.body.velocity.x = -150;
-
-          if (facing != 'left')
-          {
-              player.animations.play('left');
-              facing = 'left';
-          }
-      }
-      else if (playerGamepad.dpad == "right")
-      {
-          player.body.velocity.x = 150;
-
-          if (facing != 'right')
-          {
-              player.animations.play('right');
-              facing = 'right';
-          }
-      }
-      else
-      {
-          if (facing != 'idle')
-          {
-              player.animations.stop();
-
-              if (facing == 'left')
-              {
-                  player.frame = 0;
+              if (facing != 'left') {
+                  player.animations.play('left');
+                  facing = 'left';
               }
-              else
-              {
-                  player.frame = 5;
-              }
-
-              facing = 'idle';
           }
-      }
+          else if (playerGamepad.dpad == "right") {
+              player.body.velocity.x = 150;
 
-      if (playerGamepad.btnA && player.body.onFloor() && game.time.now > jumpTimer)
-      {
-          player.body.velocity.y = -250;
-          jumpTimer = game.time.now + 750;
-      }
+              if (facing != 'right') {
+                  player.animations.play('right');
+                  facing = 'right';
+              }
+          } else {
+              if (facing != 'idle')
+              {
+                  player.animations.stop();
 
+                  if (facing == 'left')
+                  {
+                      player.frame = 0;
+                  }
+                  else
+                  {
+                      player.frame = 5;
+                  }
+
+                  facing = 'idle';
+              }
+          }
+
+          if (playerGamepad.btnA && player.body.onFloor() && game.time.now > player._jumpTimer) {
+              player.body.velocity.y = -250;
+              player._jumpTimer = game.time.now + 750;
+          }
+      });
   }
 
   function render () {
