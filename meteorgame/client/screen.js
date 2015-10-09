@@ -1,4 +1,5 @@
 Template.screen.onCreated(function() {
+	
   var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
     preload: preload, create: create, update: update, render: render
   });
@@ -9,8 +10,22 @@ Template.screen.onCreated(function() {
   var playerCollissionGroup;
   var platformCG;
 
-  var createPlayer = function() {
+  var createPlayer = function(newPad) {
     var player = game.add.sprite(32, 32, 'dude');
+	
+	var colormap = {
+		'red': 0xff0000,
+		'orange': 0xff9900,
+		'yellow': 0xffff00,
+		'green': 0x00ff00,
+		'blue': 0x0000ff,
+		'purple': 0x9900cc,
+		'white': 0xffffff,
+		'gray': 0xa3a3a3
+	}
+	
+	player.tint = colormap[newPad.color];
+	
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -27,7 +42,7 @@ Template.screen.onCreated(function() {
 
   Gamepad.find().observe({
     added: function(newPad) {
-      var player = createPlayer();
+      var player = createPlayer(newPad);
       playerByGamepadId[newPad._id] = player;
       playerCollissionGroup.add(player);
     },
@@ -111,3 +126,4 @@ Template.screen.onCreated(function() {
       // game.debug.bodyInfo(player, 16, 24);
   }
 });
+
