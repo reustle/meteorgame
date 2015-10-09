@@ -1,3 +1,7 @@
+Template.gamepad.onCreated(function(){
+	//
+});
+
 Template.gamepad.events({
 	
 	'touchstart a, mousedown a': function(e){
@@ -15,7 +19,10 @@ Template.gamepad.events({
 			
 		}
 		
-		console.log(btn);
+		// TODO Update document
+		
+		console.log(setFields);
+		
 	},
 	
 	'touchend a, mouseup a': function(e){
@@ -27,18 +34,20 @@ Template.gamepad.events({
 		// If it is a dpad button
 		if(_.indexOf(['up','down','left','right'], btn) > -1){
 			
-			// If we let go of a dpad button, and the
+			// If we release a dpad button, and the
 			// db value is the same value, NULL it. Otherwise
 			// leave it alone incase it was already set by the
-			// next direction
+			// next dpad press (left to up immediately)
 			
-			// TODO
+			// TODO when we have a db
 			setFields['dpad'] = null;
 			
 		}else{
 			setFields[btn] = false;
 			
 		}
+		
+		// TODO Update document
 		
 	}
 	
