@@ -3,8 +3,6 @@ Template.screen.onCreated(function() {
     preload: preload, create: create, update: update, render: render
   });
 
-  var cursors;
-  var jumpButton;
   var bg;
 
   var playerByGamepadId = {};
@@ -50,9 +48,6 @@ Template.screen.onCreated(function() {
       bg = game.add.tileSprite(0, 0, 800, 600, 'background');
 
       game.physics.arcade.gravity.y = 250;
-
-      cursors = game.input.keyboard.createCursorKeys();
-      jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
   }
   function update() {
