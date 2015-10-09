@@ -11,7 +11,7 @@ Template.screen.onCreated(function() {
   var platformCG;
 
   var createPlayer = function(newPad) {
-    var player = game.add.sprite(32, 32, 'dude');
+    var player = game.add.sprite(325, 32, 'dude');
 
     var colormap = {
       'red': 0xff0000,
