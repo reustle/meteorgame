@@ -4,9 +4,9 @@ preload_level1 = function(game) {
 
 load_level1 = function(game) {
   var platforms = game.add.group();
-  
+
   platforms.enableBody = true;
-  
+
   var platform_array = [
     platforms.create(500, 150, 'platform'),
     platforms.create(-200, 300, 'platform'),
@@ -14,8 +14,8 @@ load_level1 = function(game) {
   ]
   _.each(platform_array, function(platform) {
     platform.body.immovable = true;
-	platform.body.allowGravity = false;
+    platform.body.allowGravity = false;
   });
-  
+
   return platforms;
 }

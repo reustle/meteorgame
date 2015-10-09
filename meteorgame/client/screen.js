@@ -1,6 +1,6 @@
 Template.screen.onCreated(function() {
-	
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
+  var $window = $(window);
+  var game = new Phaser.Game($window.width(), $window.height(), Phaser.CANVAS, 'phaser-example', {
     preload: preload, create: create, update: update, render: render
   });
 
@@ -12,7 +12,7 @@ Template.screen.onCreated(function() {
 
   var createPlayer = function(newPad) {
     var player = game.add.sprite(32, 32, 'dude');
-	
+
 	var colormap = {
 		'red': 0xff0000,
 		'orange': 0xff9900,
@@ -23,9 +23,9 @@ Template.screen.onCreated(function() {
 		'white': 0xffffff,
 		'gray': 0xa3a3a3
 	}
-	
+
 	player.tint = colormap[newPad.color];
-	
+
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -64,7 +64,7 @@ Template.screen.onCreated(function() {
   function create() {
       game.physics.startSystem(Phaser.Physics.ARCADE);
       game.time.desiredFps = 30;
-      bg = game.add.tileSprite(0, 0, 800, 600, 'background');
+      bg = game.add.tileSprite(0, 0, $window.width(), $window.height(), 'background');
       game.physics.arcade.gravity.y = 250;
       playerCollissionGroup = game.add.physicsGroup();
       platformCG = load_level1(game);
