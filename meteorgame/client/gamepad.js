@@ -2,6 +2,7 @@ Template.gamepad.onCreated(function(){
 	
 	// New gamepad doc
 	var gamepadId = Gamepad.insert({
+		createdOn: new Date(),
 		color: 'some-color',
 		btnA: false,
 		btnB: false,
