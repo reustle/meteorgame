@@ -3,7 +3,6 @@ Template.screen.onCreated(function() {
     preload: preload, create: create, update: update, render: render
   });
 
-  var facing = 'left';
   var cursors;
   var jumpButton;
   var bg;
@@ -22,6 +21,7 @@ Template.screen.onCreated(function() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     player._jumpTimer = 0;
+    player._facing = "left";
     return player;
   }
 
@@ -63,24 +63,24 @@ Template.screen.onCreated(function() {
           if (playerGamepad.dpad == "left") {
               player.body.velocity.x = -150;
 
-              if (facing != 'left') {
+              if (player._facing != 'left') {
                   player.animations.play('left');
-                  facing = 'left';
+                  player._facing = 'left';
               }
           }
           else if (playerGamepad.dpad == "right") {
               player.body.velocity.x = 150;
 
-              if (facing != 'right') {
+              if (player._facing != 'right') {
                   player.animations.play('right');
-                  facing = 'right';
+                  player._facing = 'right';
               }
           } else {
-              if (facing != 'idle')
+              if (player._facing != 'idle')
               {
                   player.animations.stop();
 
-                  if (facing == 'left')
+                  if (player._facing == 'left')
                   {
                       player.frame = 0;
                   }
@@ -89,7 +89,7 @@ Template.screen.onCreated(function() {
                       player.frame = 5;
                   }
 
-                  facing = 'idle';
+                  player._facing = 'idle';
               }
           }
 
