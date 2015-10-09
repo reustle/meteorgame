@@ -13,6 +13,11 @@ Template.gamepad.onCreated(function(){
 	
 	Session.set('gamepadId', gamepadId);
 	
+	// Remove the gamepad when they exit
+	window.onbeforeunload = function(){
+		Gamepad.remove(Session.get('gamepadId'));
+	}
+	
 });
 
 Template.gamepad.events({
