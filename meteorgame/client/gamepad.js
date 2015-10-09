@@ -1,5 +1,17 @@
 Template.gamepad.onCreated(function(){
-	//
+	
+	// New gamepad doc
+	var gamepadId = Gamepad.insert({
+		color: 'some-color',
+		btnA: false,
+		btnB: false,
+		btnStart: false,
+		btnSelect: false,
+		dpad: null
+	});
+	
+	Session.set('gamepadId', gamepadId);
+	
 });
 
 Template.gamepad.events({
@@ -19,9 +31,12 @@ Template.gamepad.events({
 			
 		}
 		
-		// TODO Update document
-		
-		console.log(setFields);
+		// Run the query
+		Gamepad.update({
+			_id: Session.get('gamepadId')
+		},{
+			$set: setFields
+		});
 		
 	},
 	
@@ -35,19 +50,26 @@ Template.gamepad.events({
 		if(_.indexOf(['up','down','left','right'], btn) > -1){
 			
 			// If we release a dpad button, and the
-			// db value is the same value, NULL it. Otherwise
+			// db value is the same value (ie UP), NULL it. Otherwise
 			// leave it alone incase it was already set by the
 			// next dpad press (left to up immediately)
 			
-			// TODO when we have a db
-			setFields['dpad'] = null;
+			var currentDpad = Gamepad.findOne(Session.get('gamepadId')).dpad;
+			if(currentDpad == btn){
+				setFields['dpad'] = null;
+			}
 			
 		}else{
 			setFields[btn] = false;
 			
 		}
 		
-		// TODO Update document
+		// Run the query
+		Gamepad.update({
+			_id: Session.get('gamepadId')
+		},{
+			$set: setFields
+		});
 		
 	}
 	
