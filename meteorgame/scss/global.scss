@@ -17,3 +17,44 @@ html, body {
 	overflow: hidden;
 }
 
+#pick-role-title {
+  background-color: yellow;
+  width: 100%;
+  font-size: 2em;
+  text-align: center;
+  position: absolute;
+}
+#gamepad-button {
+  float: right;
+  height: 100%;
+  width: 50%;
+  background-color: lightgreen;
+  font-size: 2em;
+  text-align: center;
+}
+
+#screen-button {
+  float: left;
+  height: 100%;
+  width: 50%;
+  background-color: gray;
+  font-size: 2em;
+  text-align: center;
+}
+
+#gamepad-button:active {
+  background-color: white;
+}
+
+#screen-button:active {
+  background-color: white;
+}
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
