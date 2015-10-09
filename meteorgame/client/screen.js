@@ -43,9 +43,6 @@ Template.screen.onCreated(function() {
   }
   function update() {
       var playerGamepad = Gamepad.findOne({}, {sort: [["createdOn", "desc"]]});
-      console.log("updating!")
-      console.log(playerGamepad.dpad);
-
       // game.physics.arcade.collide(player, layer);
 
       player.body.velocity.x = 0;
