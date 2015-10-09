@@ -6,7 +6,7 @@ Template.gamepad.onCreated(function(){
 	
 	var existingColors = _.pluck(Gamepad.find().fetch(), 'color');
 	
-	var colorOptions = _.without(PLAYER_COLORS, existingColors);
+	var colorOptions = _.difference(PLAYER_COLORS, existingColors);
 	
 	if(colorOptions.length == 0){
 		colorOptions = PLAYER_COLORS;
