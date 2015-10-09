@@ -112,9 +112,9 @@ Template.screen.onCreated(function() {
               }
           }
 
-          if (Math.abs(player.body.velocity.y) < 5 &&
-              playerGamepad.btnA &&
-              game.time.now > player._jumpTimer) {
+          if (playerGamepad.btnA &&
+              game.time.now > player._jumpTimer &&
+              Math.abs(player.body.velocity.y) < 12) {
               player.body.velocity.y = -250;
               player._jumpTimer = game.time.now + 750;
           }
