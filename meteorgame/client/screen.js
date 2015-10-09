@@ -1,12 +1,7 @@
 Template.screen.onCreated(function() {
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
-
-  function preload() {
-
-      game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
-      game.load.image('background', 'assets/games/starstruck/background2.png');
-
-  }
+  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
+    preload: preload, create: create, update: update, render: render
+  });
 
   var player;
   var facing = 'left';
@@ -14,6 +9,12 @@ Template.screen.onCreated(function() {
   var cursors;
   var jumpButton;
   var bg;
+
+  function preload() {
+      game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
+      game.load.image('background', 'assets/games/starstruck/background2.png');
+      game.stage.disableVisibilityChange = true;
+  }
 
   function create() {
 
@@ -40,14 +41,16 @@ Template.screen.onCreated(function() {
       jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
   }
-
   function update() {
+      var playerGamepad = Gamepad.findOne({}, {sort: [["createdOn", "desc"]]});
+      console.log("updating!")
+      console.log(playerGamepad.dpad);
 
       // game.physics.arcade.collide(player, layer);
 
       player.body.velocity.x = 0;
 
-      if (cursors.left.isDown)
+      if (playerGamepad.dpad == "left")
       {
           player.body.velocity.x = -150;
 
@@ -57,7 +60,7 @@ Template.screen.onCreated(function() {
               facing = 'left';
           }
       }
-      else if (cursors.right.isDown)
+      else if (playerGamepad.dpad == "right")
       {
           player.body.velocity.x = 150;
 
@@ -86,7 +89,7 @@ Template.screen.onCreated(function() {
           }
       }
 
-      if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
+      if (playerGamepad.btnA && player.body.onFloor() && game.time.now > jumpTimer)
       {
           player.body.velocity.y = -250;
           jumpTimer = game.time.now + 750;
@@ -95,12 +98,10 @@ Template.screen.onCreated(function() {
   }
 
   function render () {
-
       game.debug.text(game.time.suggestedFps, 32, 32);
 
       // game.debug.text(game.time.physicsElapsed, 32, 32);
       // game.debug.body(player);
       // game.debug.bodyInfo(player, 16, 24);
-
   }
 });
