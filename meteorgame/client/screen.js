@@ -1,5 +1,6 @@
 Template.screen.onCreated(function() {
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
+  var $window = $(window);
+  var game = new Phaser.Game($window.width(), $window.height(), Phaser.CANVAS, 'phaser-example', {
     preload: preload, create: create, update: update, render: render
   });
 
@@ -9,8 +10,22 @@ Template.screen.onCreated(function() {
   var playerCollissionGroup;
   var platformCG;
 
-  var createPlayer = function() {
+  var createPlayer = function(newPad) {
     var player = game.add.sprite(32, 32, 'dude');
+
+    var colormap = {
+      'red': 0xff0000,
+      'orange': 0xff9900,
+      'yellow': 0xffff00,
+      'green': 0x00ff00,
+      'blue': 0x0000ff,
+      'purple': 0x9900cc,
+      'white': 0xffffff,
+      'gray': 0xa3a3a3
+    }
+
+    player.tint = colormap[newPad.color];
+
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -27,7 +42,7 @@ Template.screen.onCreated(function() {
 
   Gamepad.find().observe({
     added: function(newPad) {
-      var player = createPlayer();
+      var player = createPlayer(newPad);
       playerByGamepadId[newPad._id] = player;
       playerCollissionGroup.add(player);
     },
@@ -49,14 +64,18 @@ Template.screen.onCreated(function() {
   function create() {
       game.physics.startSystem(Phaser.Physics.ARCADE);
       game.time.desiredFps = 30;
-      bg = game.add.tileSprite(0, 0, 800, 600, 'background');
+      bg = game.add.tileSprite(0, 0, $window.width(), $window.height(), 'background');
       game.physics.arcade.gravity.y = 250;
       playerCollissionGroup = game.add.physicsGroup();
       platformCG = load_level1(game);
   }
 
   function update() {
+      game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
+
       _.each(playerByGamepadId, function(player, padId) {
+          game.physics.arcade.collide(player, platformCG);
+
           var playerGamepad = Gamepad.findOne(padId);
           player.body.velocity.x = 0;
 
@@ -97,10 +116,8 @@ Template.screen.onCreated(function() {
               player.body.velocity.y = -250;
               player._jumpTimer = game.time.now + 750;
           }
-          game.physics.arcade.collide(player, platformCG);
       });
 
-      game.physics.arcade.collide(playerCollissionGroup, playerCollissionGroup);
   }
 
   function render () {
@@ -111,3 +128,4 @@ Template.screen.onCreated(function() {
       // game.debug.bodyInfo(player, 16, 24);
   }
 });
+
