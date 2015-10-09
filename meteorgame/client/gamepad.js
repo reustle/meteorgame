@@ -31,6 +31,8 @@ Template.gamepad.events({
 			
 		}
 		
+		console.log(setFields);
+		
 		// Run the query
 		Gamepad.update({
 			_id: Session.get('gamepadId')
