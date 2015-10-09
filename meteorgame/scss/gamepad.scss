@@ -10,12 +10,19 @@
 		width: 50%;
 		height: 75%;
 		float: left;
+		color: #fff;
 	
 		>div {
 			width: 45%;
 			top: 25%;
 			left: 5%;
 			position: absolute;
+			
+			a {
+				background: #000;
+				display: inline-block;
+				padding: 4px 8px;
+			}
 		}
 	}
 	
